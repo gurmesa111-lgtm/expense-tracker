@@ -1,0 +1,17 @@
+# Personal expense data
+expense.json
+python/expense.json
+
+# Python virtual environments
+.venv/
+venv/
+
+# PyCharm settings
+.idea/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env

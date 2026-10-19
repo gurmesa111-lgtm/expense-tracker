@@ -74,5 +74,39 @@ function renderDashboard(){
     
 }
 
+const categorySpend = document.getElementById("category-list");
+function renderCategoryTotals(){
+    categorySpend.innerHTML = "";
+    const totals = {};
+    
+    for(const expense of expenses){
+        const name = categories[expense.categoryId];
+        totals[name] = (totals[name] || 0) + expense.amount;
+    }
+
+    for(const categoryName in totals){
+        const spending = document.createElement("li");
+        spending.textContent = `${categoryName}: ${totals[categoryName].toFixed(2)}`;
+        categorySpend.appendChild(spending);
+    }
+}
+
+const biggestlist = document.getElementById("biggest-list"); 
+function renderBiggestExpenses(){
+    biggestlist.innerHTML = "";
+
+    const sorted = [...expenses];
+    sorted.sort((a, b) => b.amount - a.amount);
+    const topThree = sorted.slice(0, 3);
+
+    for(const expense of topThree){
+        const item = document.createElement("li");              
+        item.textContent = `${expense.description}: ${expense.amount.toFixed(2)}`;
+        biggestlist.appendChild(item);
+    }
+}
+
 renderExpenses();
 renderDashboard();
+renderCategoryTotals();
+renderBiggestExpenses();

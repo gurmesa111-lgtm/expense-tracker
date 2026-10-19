@@ -46,4 +46,33 @@ function renderExpenses(){
     }
 }
 
+function renderDashboard(){
+    let totalAmount = 0;
+    let monthTotal = 0;
+    const now = new Date();
+    
+    for(const expense of expenses){
+        totalAmount += expense.amount;
+    }
+    const totalCard = document.getElementById("total-spending");
+    totalCard.textContent = totalAmount.toFixed(2);
+
+    const yearMonth = `${now.getFullYear()}-${String((now.getMonth() + 1)).padStart(2, "0")}`;
+    const monthExpenses = expenses.filter((expense) => expense.date.startsWith(yearMonth));
+    for(const monthExpense of monthExpenses){
+        monthTotal += monthExpense.amount;
+    }
+    const monthCard = document.getElementById("month-spending");
+    monthCard.textContent = monthTotal.toFixed(2);
+
+    const monthLabel = document.getElementById("month-label");
+    monthLabel.textContent = `${now.toLocaleString("en-US", { month: "long" })} ${now.getFullYear()} spending`;
+
+    const count = expenses.length;
+    const recordCard = document.getElementById("expense-count");
+    recordCard.textContent = count;
+    
+}
+
 renderExpenses();
+renderDashboard();

@@ -112,6 +112,31 @@ function renderBiggestExpenses(){
     }
 }
 
+const form = document.getElementById("expense-form");
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const newExpense = {};
+
+    const id = Date.now();
+    newExpense.id = id;
+
+    const amountInput = document.getElementById("amount");
+    newExpense.amount = Number(amountInput.value);
+
+    const categoryInput = document.getElementById("category");
+    newExpense.categoryId = Number(categoryInput.value);
+
+    const dateInput = document.getElementById("date");
+    newExpense.date = dateInput.value;
+
+    const descriptionInput = document.getElementById("description");
+    newExpense.description = descriptionInput.value || categories[newExpense.categoryId];
+
+    expenses.push(newExpense);
+    form.reset();
+    renderAll();
+});
+
 function renderAll(){
     renderExpenses();
     renderDashboard();

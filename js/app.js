@@ -112,7 +112,23 @@ function renderBiggestExpenses(){
     }
 }
 
+function validateExpense(expense){
+    if(Number.isNaN(expense.amount)){
+        throw new Error("Amount must be a number!");
+    }
+    if(expense.amount <= 0){
+        throw new Error("Amount can not be negative or zero!");
+    }
+    if(!categories[expense.categoryId]){
+        throw new Error("Please choose a category!");
+    }
+    if(!expense.date.trim()){
+        throw new Error("Enter a valid date!");
+    }
+}
+
 const form = document.getElementById("expense-form");
+const errorMessage = document.getElementById("form-error");
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const newExpense = {};
@@ -132,9 +148,15 @@ form.addEventListener("submit", (event) => {
     const descriptionInput = document.getElementById("description");
     newExpense.description = descriptionInput.value || categories[newExpense.categoryId];
 
-    expenses.push(newExpense);
-    form.reset();
-    renderAll();
+    try{
+        validateExpense(newExpense);
+        expenses.push(newExpense);
+        form.reset();
+        renderAll();
+        errorMessage.textContent = "";
+    }catch(error){
+        errorMessage.textContent = error.message;
+    }
 });
 
 function renderAll(){

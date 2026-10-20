@@ -221,6 +221,10 @@ section ul{
     padding-left: 0;
 }
 
+.error{
+    color: #f87171;
+}
+
 @media (max-width: 768px){
     .cards{
         grid-template-columns: 1fr;

@@ -10,11 +10,19 @@ let expenses = [{id: 1, amount: 300, categoryId: 2, date: "2026-10-16", descript
 ];
 
 const body = document.getElementById("expense-body");
+const filterCategory = document.getElementById("filter-category");
 
 function renderExpenses(){
     body.innerHTML = "";
+    let visibleExpenses = expenses;
 
-    for(const expense of expenses){
+    if(filterCategory.value){
+        visibleExpenses = expenses.filter(
+            (expense) => expense.categoryId === Number(filterCategory.value)
+        );
+    }
+
+    for(const expense of visibleExpenses){
         const row = document.createElement("tr");
 
         const dateCell = document.createElement("td");
@@ -165,5 +173,9 @@ function renderAll(){
     renderCategoryTotals();
     renderBiggestExpenses();
 }
+
+filterCategory.addEventListener("change", () => {
+        renderExpenses();
+});
 
 renderAll();

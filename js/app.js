@@ -2,7 +2,8 @@ const categories = {1: "Food", 2: "Transport", 3: "Housing",
     4: "Utilities", 5: "Shopping", 6: "Entertainment",
     7: "Health", 8: "Education", 9: "Others"};
 
-let expenses = [{id: 1, amount: 300, categoryId: 2, date: "2026-10-16", description: "Travel"},
+const savedExpenses = localStorage.getItem("expenses");
+let expenses = savedExpenses ? JSON.parse(savedExpenses) : [{id: 1, amount: 300, categoryId: 2, date: "2026-10-16", description: "Travel"},
     {id: 2, amount: 200, categoryId: 1, date: "2026-08-18", description: "Lunch"},
     {id: 3, amount: 2800, categoryId: 3, date: "2026-10-01", description: "Rent"},
     {id: 4, amount: 800, categoryId: 1, date: "2026-06-23", description: "Groceries"},
@@ -65,6 +66,7 @@ function renderExpenses(){
 
         button.addEventListener("click", () => {
             expenses = expenses.filter((item) => item.id !== expense.id);
+            localStorage.setItem("expenses", JSON.stringify(expenses));
             renderAll();
         });
 
@@ -174,6 +176,7 @@ form.addEventListener("submit", (event) => {
     try{
         validateExpense(newExpense);
         expenses.push(newExpense);
+        localStorage.setItem("expenses", JSON.stringify(expenses));
         form.reset();
         renderAll();
         errorMessage.textContent = "";

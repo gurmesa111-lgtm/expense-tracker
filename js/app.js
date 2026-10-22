@@ -11,6 +11,9 @@ let expenses = [{id: 1, amount: 300, categoryId: 2, date: "2026-10-16", descript
 
 const body = document.getElementById("expense-body");
 const filterCategory = document.getElementById("filter-category");
+const filterFrom = document.getElementById("filter-from");
+const filterTo = document.getElementById("filter-to");
+const clearButton = document.getElementById("clear-filters");
 
 function renderExpenses(){
     body.innerHTML = "";
@@ -19,6 +22,18 @@ function renderExpenses(){
     if(filterCategory.value){
         visibleExpenses = expenses.filter(
             (expense) => expense.categoryId === Number(filterCategory.value)
+        );
+    }
+
+    if(filterFrom.value){
+        visibleExpenses = visibleExpenses.filter(
+            (expense) => expense.date >= filterFrom.value
+        );
+    }
+
+    if(filterTo.value){
+        visibleExpenses = visibleExpenses.filter(
+            (expense) => expense.date <= filterTo.value
         );
     }
 
@@ -175,7 +190,23 @@ function renderAll(){
 }
 
 filterCategory.addEventListener("change", () => {
-        renderExpenses();
+    renderExpenses();
 });
+
+filterFrom.addEventListener("change", () => {
+    renderExpenses();
+});
+
+filterTo.addEventListener("change", () => {
+    renderExpenses();
+});
+
+clearButton.addEventListener("click", () => {
+    filterCategory.value = "";
+    filterFrom.value = "";
+    filterTo.value = "";
+    renderExpenses();
+});
+
 
 renderAll();
